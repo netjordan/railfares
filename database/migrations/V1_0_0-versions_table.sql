@@ -46,7 +46,7 @@ CREATE TABLE `location` (
   `crs_code` VARCHAR(3),
   `resv_code` VARCHAR(5),
   `ers_country` VARCHAR(3),
-  `ers_code` VARCHAR(2),
+  `ers_code` VARCHAR(3),
   `fare_group` VARCHAR(6),
   `county` VARCHAR(2),
   `pte_code` VARCHAR(2),
@@ -84,3 +84,64 @@ CREATE TABLE `location` (
   INDEX idx_uic_code_created_version_deleted_version (`uic_code`,  `created_version`, `deleted_version`),
   INDEX idx_uic_code_end_date_created_version_deleted_version (`uic_code`, `end_date`, `created_version`, `deleted_version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `railcard_geography` (
+  `id` INTEGER(11) NOT NUll AUTO_INCREMENT,
+  `uic_code` VARCHAR(7),
+  `railcard_code` VARCHAR(3),
+  `end_date` DATE,
+  `created_version` INTEGER(11),
+  `deleted_version` INTEGER (11) NULL,
+  PRIMARY KEY (`id`),
+  INDEX idx_uic_code (`uic_code`),
+  INDEX idx_uic_code_railcard_code (`uic_code`, `railcard_code`),
+  INDEX idx_uic_code_railcard_code_created_version_deleted_version (`uic_code`, `railcard_code`, `created_version`, `deleted_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `tt_group_location` (
+  `id` INTEGER(11) NOT NUll AUTO_INCREMENT,
+  `group_uic_code` VARCHAR(7),
+  `end_date` DATE,
+  `start_date` DATE,
+  `quote_date` DATE,
+  `descriptipn` VARCHAR(16),
+  `ers_country` VARCHAR(3),
+  `ers_code` VARCHAR(3),
+  `created_version` INTEGER(11),
+  `deleted_version` INTEGER (11) NULL,
+  PRIMARY KEY (`id`),
+  INDEX idx_group_uic_code (`group_uic_code`),
+  INDEX idx_group_uic_code_end_date (`group_uic_code`, `end_date`),
+  INDEX idx_group_uic_code_end_date_created_version_deleted_version (`group_uic_code`, `end_date`, `created_version`, `deleted_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `group_member` (
+  `id` INTEGER(11) NOT NUll AUTO_INCREMENT,
+  `group_uic_code` VARCHAR(7),
+  `end_date` DATE,
+  `member_uic_code` VARCHAR(7),
+  `member_crs_code` VARCHAR(3),
+  `created_version` INTEGER(11),
+  `deleted_version` INTEGER (11) NULL,
+  PRIMARY KEY (`id`),
+  INDEX idx_group_uic_code (`group_uic_code`),
+  INDEX idx_member_uic_code (`member_uic_code`),
+  INDEX idx_group_uic_code_end_date (`group_uic_code`, `end_date`),
+  INDEX idx_group_uic_code_end_date_created_version_deleted_version (`group_uic_code`, `end_date`, `created_version`, `deleted_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `synonym` (
+  `id` INTEGER(11) NOT NUll AUTO_INCREMENT,
+  `uic_code` VARCHAR(7),
+  `end_date` DATE,
+  `start_date` DATE,
+  `descriptipn` VARCHAR(16),
+  `created_version` INTEGER(11),
+  `deleted_version` INTEGER (11) NULL,
+  PRIMARY KEY (`id`),
+  INDEX idx_group_uic_code (`group_uic_code`),
+  INDEX idx_member_uic_code (`member_uic_code`),
+  INDEX idx_group_uic_code_end_date (`group_uic_code`, `end_date`),
+  INDEX idx_group_uic_code_end_date_created_version_deleted_version (`group_uic_code`, `end_date`, `created_version`, `deleted_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
